@@ -3,9 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 		<div class="container">
 			<?php echo validation_errors(); ?>
+				<img src = "/ci/assets/logos/Easylogo.png">
 			<div class="card">
+					
 				<div class="card-header">
-					<h2>User Login</h2>
+					 <h1>User Login</h1> 
 				</div>
 				<div class="card-body">
 					<?php echo form_open(base_url('users/login')); ?>
