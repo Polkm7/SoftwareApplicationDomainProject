@@ -50,9 +50,41 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`accountID`, `userID`, `accountName`, `accountDescription`, `accountCategory`, `accountCategorySub`, `accountSide`, `accountBalance`, `accountDebit`, `accountCredit`, `accountOrder`, `accountStatement`, `accountCreationDate`) VALUES
 (101, 1000003, 'Cash', 'This is the cash account.', 'Assets', 'Cash Related Accounts', 'L', '0', '0', '0', 1, 'BS', '2019-09-30 16:43:37'),
-(121, 1000003, 'Notes Receivable', 'This is the notes receivable account.', 'Assets', 'Receivables', 'L', '0', '0', '0', 1, 'BS', '2019-09-30 17:52:00');
+(121, 1000003, 'Notes Receivable', 'This is the notes receivable account.', 'Assets', 'Receivables', 'L', '0', '0', '0', 1, 'BS', '2019-09-30 17:52:00'),
+(122, 1000003, 'Accounts Receivable', '', 'Assets', 'Receivables', 'L', '0', '0', '0', 2, 'BS', '2019-09-30 17:52:00'),
+(131, 1000003, 'Merchandise Inventory', '', 'Assets', 'Inventories', 'L', '0', '0', '0', 3, 'BS', '2019-09-30 17:52:00'),
+(134, 1000003, 'Finished Goods', '', 'Assets', 'Inventories', 'L', '0', '0', '0', 3, 'BS', '2019-09-30 17:52:00'),
+(141, 1000003, 'Supplies', '', 'Assets', 'Prepaid Items', 'L', '0', '0', '0', 4, 'BS', '2019-09-30 17:52:00'),
+(142, 1000003, 'Office Supplies', '', 'Assets', 'Prepaid Items', 'L', '0', '0', '0', 4, 'BS', '2019-09-30 17:52:00'),
+(145, 1000003, 'Prepaid Insurance', '', 'Assets', 'Prepaid Items', 'L', '0', '0', '0', 4, 'BS', '2019-09-30 17:52:00'),
+(161, 1000003, 'Land', '', 'Assets', 'Land', 'L', '0', '0', '0', 5, 'BS', '2019-09-30 17:52:00'),
+(171, 1000003, 'Buildings', '', 'Assets', 'Buildings', 'L', '0', '0', '0', 6, 'BS', '2019-09-30 17:52:00'),
+(181, 1000003, 'Office Equipment', '', 'Assets', 'Equipment', 'L', '0', '0', '0', 7, 'BS', '2019-09-30 17:52:00'),
+(191, 1000003, 'Patents', '', 'Assets', 'Intangibles', 'L', '0', '0', '0', 8, 'BS', '2019-09-30 17:52:00'),
+(192, 1000003, 'Copyrights', '', 'Assets', 'Intangibles', 'L', '0', '0', '0', 8, 'BS', '2019-09-30 17:52:00'),
+(201, 1000003, 'Notes Payable', '', 'Liabilities', 'Short-term Payables', 'R', '0', '0', '0', 9, 'BS', '2019-09-30 17:52:00'),
+(202, 1000003, 'Accounts Payable', '', 'Liabilities', 'Short-term Payables', 'R', '0', '0', '0', 9, 'BS', '2019-09-30 17:52:00'),
+(219, 1000003, 'Wages Payable', '', 'Liabilities', 'Employee Payroll Related Payables', 'R', '0', '0', '0', 10, 'BS', '2019-09-30 17:52:00'),
+(231, 1000003, 'Sales Tax Payable', '', 'Liabilities', 'Employee Payroll Related Payables', 'R', '0', '0', '0', 12, 'BS', '2019-09-30 17:52:00'),
+(251, 1000003, 'Mortgage Payable', '', 'Liabilities', 'Long-term Liabilities', 'R', '0', '0', '0', 14, 'BS', '2019-09-30 17:52:00'),
+(311, 1000003, 'Jessica Jane, Capital', '', 'Owner\'s Equity', 'Owner\'s Equity', 'R', '0', '0', '0', 15, 'BS', '2019-09-30 17:52:00'),
+(321, 1000003, 'Common Stock', '', 'Owner\'s Equity', 'Owner\'s Equity', 'R', '0', '0', '0', 15, 'BS', '2019-09-30 17:52:00'),
+(325, 1000003, 'Retained Earnings', '', 'Owner\'s Equity', 'Owner\'s Equity', 'R', '0', '0', '0', 15, 'BS', '2019-09-30 17:52:00'),
+(401, 1000003, 'Sales', '', 'Revenues', 'Operating Revenues', 'R', '0', '0', '0', 16, 'IS', '2019-09-30 17:52:00'),
+(411, 1000003, 'Interest Revenue', '', 'Revenues', 'Other Revenues', 'R', '0', '0', '0', 17, 'IS', '2019-09-30 17:52:00'),
+(412, 1000003, 'Rent Revenue', '', 'Revenues', 'Other Revenues', 'R', '0', '0', '0', 17, 'IS', '2019-09-30 17:52:00'),
+(501, 1000003, 'Purchases', '', 'Operating Expenses', 'Cost of Goods Sold', 'R', '0', '0', '0', 18, 'IS', '2019-09-30 17:52:00'),
+(504, 1000003, 'Overhead', '', 'Operating Expenses', 'Cost of Goods Sold', 'R', '0', '0', '0', 18, 'IS', '2019-09-30 17:52:00'),
+(511, 1000003, 'Wages Expense', '', 'Operating Expenses', 'Selling Expenses', 'R', '0', '0', '0', 19, 'IS', '2019-09-30 17:52:00'),
+(512, 1000003, 'Advertising Expense', '', 'Operating Expenses', 'Selling Expenses', 'R', '0', '0', '0', 19, 'IS', '2019-09-30 17:52:00'),
+(521, 1000003, 'Rent Expense', '', 'Operating Expenses', 'General and Administrative Expenses', 'R', '0', '0', '0', 20, 'IS', '2019-09-30 17:52:00'),
+(555, 1000003, 'Interest Expense', '', 'Operating Expenses', 'Other Expenses', 'R', '0', '0', '0', 21, 'IS', '2019-09-30 17:52:00');
 
--- --------------------------------------------------------
+--
+-- Indexes for dumped tables
+--
+
+
 
 --
 -- Table structure for table `logs_categories`
@@ -234,6 +266,13 @@ ALTER TABLE `logs_users`
 --
 ALTER TABLE `users`
   MODIFY `userID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000004;
+COMMIT;
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD UNIQUE KEY `accountID` (`accountID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
