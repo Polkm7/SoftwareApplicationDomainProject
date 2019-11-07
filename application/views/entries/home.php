@@ -5,6 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="row">
 				<h1>List of Entries</h1>
 				<div class="input-group" style="padding-bottom: 10px">
+					<input id="searchFrom" class="searchInput" type="text" placeholder="From"/>
+					<input id="searchTo" class="searchInput" type="text" placeholder="To" >
+				</div>
+				<div class="input-group" style="padding-bottom: 10px">
 					<input id="filter" type="text" class="form-control" placeholder="Type here to filter...">
 				</div>
 			</div>
@@ -103,10 +107,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		else {
 			echo '<span class="text-success">Approved</span>';
 		}
-						echo '</td>
-						<td>'.date('F d, Y | h:i A', strtotime($entry['entryCreateDate'])).'</td>
-					</tr>
+		echo '</td>
+			<td>'.date('F d, Y | h:i A', strtotime($entry['entryCreateDate'])).'</td>
+			</tr>
 		';
+		
 	}
 ?>
 					</tbody>
