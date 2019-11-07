@@ -18,24 +18,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		# Admin Index Function
 		public function index(){
-			$userRole = $this->session->userdata('userRole');
-			if ($userRole != 20){
-				$this->session->set_flashdata('danger', 'You do not have permission to view this.');
-				redirect('users');
-			}
-			else {
-				$data['userData'] = $this->session->userdata();
-				$data['title']    = 'Admin | List of Users';
-				$data['userList'] = $this->admin_model->getUsers();
-				$this->load->template('admin/home', $data);
-			}
+			$data['userData'] = $this->session->userdata();
+			$data['title']    = 'Admin | List of Users';
+			$data['userList'] = $this->admin_model->getUsers();
+			$this->load->template('admin/home', $data);
 		}
 
 
 		# Create User Info Function
 		public function create(){
-			$data['title'] = "Admin | Create User";
+			$data['title']    = "Admin | Create User";
 			$data['userData'] = $this->session->userdata();
+
+			$userRole = $this->session->userdata('userRole');
+			if ($userRole != 20){
+				$this->session->set_flashdata('danger', 'You do not have permission to view this.');
+				redirect('admin');
+			}
 
 			if (!empty($this->input->post())){
 				$createCheck = $this->admin_model->createUser($_POST);
@@ -59,8 +58,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['userData'] = $this->session->userdata();
 			$data['title']    = "Admin | Edit User: #{$userID}";
 
-			$getSQL = "SELECT * FROM users WHERE userID = '{$userID}'";
-			$queryDB = $this->db->query($getSQL);
+			$userRole = $this->session->userdata('userRole');
+			if ($userRole != 20){
+				$this->session->set_flashdata('danger', 'You do not have permission to view this.');
+				redirect('admin');
+			}
+
+			$getSQL    = "SELECT * FROM users WHERE userID = '{$userID}'";
+			$queryDB   = $this->db->query($getSQL);
 			$userCheck = $queryDB->result();
 
 			# User Selected Does Not Exist
@@ -70,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 
 			$data['userEditData'] = (array) $userCheck[0];
-			$data['userList'] = $this->admin_model->getUsers($userID);
+			$data['userList']     = $this->admin_model->getUsers($userID);
 
 			# Default Edit View
 			if (empty($_POST)){
@@ -79,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			# Delete User Form Submitted
 			elseif (array_key_exists('delete', $_POST) && $_POST['delete'] == 'Y'){
 				$deletedUserID = $data['userEditData']['userID'];
-				$deleteCheck = $this->admin_model->deleteUser($deletedUserID);
+				$deleteCheck   = $this->admin_model->deleteUser($deletedUserID);
 				if ($deleteCheck){
 
 					$this->session->set_flashdata('success', 'You have successfully delete the user: #'.$deletedUserID.'.');
@@ -147,6 +152,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				}
 			}
+		}
+
+
+		# Admin Email Function
+		public function email($userID){
+			$data['userData']  = $this->session->userdata();
+			$data['title']     = 'Admin | Email User: #'.$userID;
+			$data['emailInfo'] = (array) $this->admin_model->getUsers($userID)[0];
+
+			if (!empty($_POST)){
+				if (mail($data['emailInfo']['userEmail'], $_POST['emailSubject'], wordwrap($_POST['emailBody'], 70), "From: ".$data['userData']['userEmail'])){
+					$this->session->set_flashdata('success', 'You have successfully sent an email to User: #'.$userID);
+					redirect('admin');
+				}
+				else {
+					$this->session->set_flashdata('danger', 'Something has happened internally. Please try again.');
+				}
+			}
+
+			$this->load->template('admin/email', $data);
 		}
 
 

@@ -3,7 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 		<div class="container">
 			<div class="row">
-				<h1>List of Accounts</h1>
+				<span class="float-left"><h1>List of Accounts</h1></span>
+				<span class="float-right mx-5">
+					<a class="btn btn-primary btn-block" href="<?=site_url("accounts/create");?>">Create Account</a>
+				</span>
 				<div class="input-group" style="padding-bottom: 10px">
 					<input id="filter" type="text" class="form-control" placeholder="Type here to filter...">
 				</div>
@@ -19,54 +22,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>Sub-Category</th>
 							<th>Normal Side</th>
 							<th>Balance</th>
-							<th>Debits</th>
-							<th>Credits</th>
+							<th>Debit</th>
+							<th>Credit</th>
 							<th>Statement</th>
+<?php
+	if ($userData['userRole'] == 20){
+		echo '
 							<th></th>
+		';
+	}
+?>
 						</tr>
 					</thead>
 					<tbody class="searchable">
 <?php
 	foreach ($accountList as $account){
 		$account = (array) $account;
-
-		switch ($account['accountSide']) {
-			case 'L':
-				$accountSide = "Left (Debit)";
-				break;
-			default:
-				$accountSide = "Right (Credit)";
-				break;
-		}
-
-		switch ($account['accountStatement']) {
-			case 'BS':
-				$accountStatement = "Balance Statement";
-				break;
-			default:
-				$accountStatement = "Income Statement";
-				break;
-		}
-		setlocale(LC_MONETARY, 'en_US');
 		echo '
 						<tr class="text-center">
-							<td>#'.$account["accountID"].'</td>
-							<td>'.$account["accountName"].'</td>
+							<td><a href="'.site_url()."ledgers/index/".$account["accountID"].'">#'.$account["accountID"].'</a></td>
+							<td><a href="'.site_url()."ledgers/index/".$account["accountID"].'">'.$account["accountName"].'</a></td>
 							<td>'.$account["accountCategory"].'</td>
 							<td>'.$account["accountCategorySub"].'</td>
-							<td>'.$accountSide.'</td>
-							<td>$'.number_format($account["accountBalance"], 2).'</td>
-							<td>$'.number_format($account["accountDebit"], 2).'</td>
-							<td>$'.number_format($account["accountCredit"], 2).'</td>
-							<td>'.$accountStatement.'</td>
+							<td class="text-left">'.$account["accountSide"].'</td>
+							<td class="text-right">$'.number_format($account["accountBalance"], 2).'</td>
+							<td class="text-right">$'.number_format($account["accountDebit"], 2).'</td>
+							<td class="text-right">$'.number_format($account["accountCredit"], 2).'</td>
+							<td class="text-left">'.$account["accountStatement"].'</td>';
+		if ($userData['userRole'] == 20){
+			echo '
 							<td><a class="btn btn-info" href="'.site_url("accounts/edit/".$account["accountID"]).'">Edit Account</a></td>
-						</tr>
+			';
+		}
+		echo '			</tr>
 		';
 	}
 ?>
 					</tbody>
 				</table>
-				<br /><br />
-				<a class="btn btn-success btn-block" href="<?=site_url("accounts/create");?>">Create Account</a>
 			</div>
 		</div>

@@ -27,13 +27,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['title'] = "User Registration";
 
 			$registerInfo = array(
-				'userFirstName'        => $this->input->post('userFirstName'),
-				'userLastName'         => $this->input->post('userLastName'),
-				'userEmail'            => $this->input->post('userEmail'),
-				'userPassword'         => md5($this->input->post('userPassword')),
+				'userFirstName' => $this->input->post('userFirstName'),
+				'userLastName'  => $this->input->post('userLastName'),
+				'userEmail'     => $this->input->post('userEmail'),
+				'userPassword'  => md5($this->input->post('userPassword')),
 			);
 
-			$registerValidation = $this->form_validation->run('registration');
+			$registerValidation = $this->form_validation->run();
 
 			if ($registerValidation) {
 				$userRegistration = $this->user_model->userRegister($registerInfo);
@@ -59,10 +59,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$email    = $this->input->post('userEmail');
 			$password = md5($this->input->post('userPassword'));
 
-			if (empty($email)){
-				$this->load->template('users/login', $data);
-			}
-			else {
+			if (!empty($email)){
 				$loginUser = $this->user_model->userLogin($email, $password);
 
 				if ($loginUser){
@@ -83,9 +80,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					redirect();
 				}
 				else {
-					$this->session->set_flashdata('danger', 'Something has happened internally. Please try again.');
+					$this->session->set_flashdata('danger', 'Your email/password combination was not correct Please try again.');
 					$this->load->template('users/login', $data);
 				}
+			}
+			else {
+				$this->load->template('users/login', $data);
 			}
 		}
 
@@ -97,17 +97,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				redirect('users/login');
 			}
 			else{
-				$logInfo = array(
-					'userID' => $userID,
-					'logInfo' => 'User logged out.',
-				);
-				$this->log_model->userCreate($logInfo);
-
 				$this->session->sess_destroy();
 				redirect('users/login');
 			}
 		}
 
+
+		# User Forgot function
+		public function forgot(){
+			$data['title'] = "User Forgot";
+
+			$email      = $this->input->post('userEmail');
+			$forgotHash = bin2hex(random_bytes(16));
+			if (!empty($email)){
+				$this->user_model->setForgot($email, $forgotHash);
+
+				$this->session->set_flashdata('success', 'Please expect an email with further instructions to the provided email shortly.');
+				redirect('users/login');
+			}
+			else {
+				$this->load->template('users/forgot', $data);
+			}
+		}
+
+		# User Forgot Confirm function
+		public function forgotConfirm($forgotHash = NULL){
+			$data['title']      = "User Forgot | Confirm";
+			$data['forgotHash'] = $forgotHash;
+
+			$forgotCheck = $this->user_model->checkForgotHash($forgotHash);
+
+			if ($forgotCheck){
+				if (!empty($_POST)){
+					$forgotPasswordValidation = $this->form_validation->run();
+					if ($forgotPasswordValidation){
+						$this->user_model->setForgotPassword($_POST);
+						$this->session->set_flashdata('success', 'You have reset your password successfully.');
+						redirect('users/login');
+					}
+					else{
+						$this->load->template('users/forgotConfirm', $data);
+					}
+				}
+				else {
+					$this->load->template('users/forgotConfirm', $data);
+				}
+			}
+			else {
+				redirect('users/login');
+			}
+		}
 
 		# Password Requirement Checker Function
 		public function password_check($password){

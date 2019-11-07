@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<input class="form-control" placeholder="Account Name" name="accountName" type="text" required />
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Account Starting Balance" name="accountBalance" type="number" min="0" step="1" required />
+								<input class="form-control" placeholder="Account Starting Balance" name="accountBalance" type="number" min="0" step="0.01" value="0.00" required />
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="accountCategory">
@@ -30,32 +30,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="accountCategorySub">
-									<option>Cash Related Accounts</option>
-									<option>Recievables</option>
-									<option>Inventories</option>
-									<option>Prepaid Items</option>
-									<option>Land</option>
-									<option>Buildings</option>
-									<option>Equipment</option>
-									<option>Short-term Payables</option>
-									<option>Owner's Equity</option>
-									<option>Operating Revenues</option>
-									<option>Other Revenues</option>
-									<option>Cost of Goods Sold</option>
-									<option>Selling Expenses</option>
-									<option>General and Administrative Expenses</option>
+									<option>Current Assets</option>
+									<option>Property Plant & Management</option>
+									<option>Current Liabilities</option>
+									<option>Stockholders' Equity</option>
+									<option>Revenues</option>
+									<option>Expenses</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="accountSide">
-									<option value='L'>Left (Debit)</option>
-									<option value='R'>Right (Credit)</option>
+									<option>Left (Debit)</option>
+									<option>Right (Credit)</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="accountStatement">
-									<option value='BS'>Balance Statement</option>
-									<option value='IS'>Income Statement</option>
+									<option>Balance Sheet</option>
+									<option>Income Statement</option>
 								</select>
 							</div>
 							<input class="btn btn-lg btn-success btn-block" type="submit" value="Create Account" />

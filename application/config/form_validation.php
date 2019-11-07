@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	$config = array(
 		# Registration Form Validation Rules
-		'registration' => array(
+		'users/register' => array(
 			array(
 				'field'  => 'userFirstName',
 				'label'  => 'First Name',
@@ -61,9 +61,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			),
 		),
 
+		'users/forgotConfirm' => array(
+			array(
+				'field'  => 'userPassword',
+				'label'  => 'Password',
+				'rules'  => 'required|min_length[8]|callback_password_check',
+				'errors' => array(
+					'required'       => 'You must provide a %s for your account.',
+					'min_length'     => 'You have too few characters for your %s.',
+					'password_check' => 'You do not have the correct amount of letters, numbers, or special characters in your password.'
+				),
+			),
+
+			array(
+				'field'  => 'userPasswordConfirm',
+				'label'  => 'Password Confirmation',
+				'rules'  => 'required|matches[userPassword]',
+				'errors' => array(
+					'required'              => 'You must provide a %s for your account.',
+					'matches[userPassword]' => 'Your %s did not match.'
+				),
+			),
+		),
+
 
 		# Update Account Form Validation Rules
-		'update' => array(
+		'profile/edit' => array(
 			array(
 				'field'  => 'userFirstName',
 				'label'  => 'First Name',
@@ -101,10 +124,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			array(
 				'field'  => 'userPassword',
 				'label'  => 'Password',
-				'rules'  => 'min_length[8]|callback_password_check',
+				'rules'  => 'min_length[8]',
 				'errors' => array(
-					'min_length'     => 'You have too few characters for your %s.',
-					'password_check' => 'You do not have the correct amount of letters, numbers, or special characters in your password.'
+					'min_length'     => 'You have too few characters for your %s.'
 				),
 			),
 
@@ -115,29 +137,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				'errors' => array(
 					'matches[userPassword]' => 'Your %s did not match.'
 				),
-			),
+			)
+		),
 
+
+		# Account Creation Form Validation Rules
+		'accounts/create' => array(
 			array(
-				'field'  => 'userRole',
-				'label'  => 'Role',
-				'rules'  => 'trim|required|min_length[1]|max_length[1]|in_list[0,10,20]',
+				'field'  => 'accountID',
+				'label'  => 'Account ID',
+				'rules'  => 'trim|required|min_length[8]|max_length[8]|is_unique[accounts.accountID]',
 				'errors' => array(
-					'required'    => 'You must provide a %s for your account.',
-					'min_length'  => 'You have too few characters for your %s.',
-					'max_length'  => 'You have too many characters for your %s.',
-					'in_list'     => 'The %s provided was not valid.'
+					'required'   => 'You must provide a %s for your account.',
+					'min_length' => 'You have too few characters for your %s.',
+					'max_length' => 'You have too many characters for your %s.',
+					'is_unique'   => 'The %s provided was not unique.',
 				),
 			),
 
 			array(
-				'field'  => 'userActive',
-				'label'  => 'Status',
-				'rules'  => 'trim|required|min_length[1]|max_length[1]|in_list[0,1]',
+				'field'  => 'accountName',
+				'label'  => 'Account Name',
+				'rules'  => 'required|min_length[3]|max_length[25]|is_unique[accounts.accountName]',
 				'errors' => array(
-					'required'    => 'You must provide a %s for your account.',
-					'min_length'  => 'You have too few characters for your %s.',
-					'max_length'  => 'You have too many characters for your %s.',
-					'in_list'     => 'The %s provided was not unique.'
+					'required'   => 'You must provide a %s for your account.',
+					'min_length' => 'You have too few characters for your %s.',
+					'max_length' => 'You have too many characters for your %s.',
+					'is_unique'   => 'The %s provided was not unique.',
+				),
+			),
+
+			array(
+				'field'  => 'accountBalance',
+				'label'  => 'Account Balance',
+				'rules'  => 'required|greater_than_equal_to[0]',
+				'errors' => array(
+					'required'   => 'You must provide a %s for your account.',
+					'greater_than_equal_to' => 'Your %s is less than the minimum amount required.',
+				),
+			),
+
+			array(
+				'field'  => 'accountCategory',
+				'label'  => 'Account Category',
+				'rules'  => 'required',
+				'errors' => array(
+					'required'   => 'You must provide a %s for your account.',
+					'in_list' => 'Your %s is not a valid option.',
+				),
+			),
+
+			array(
+				'field'  => 'accountCategorySub',
+				'label'  => 'Account Sub-Category',
+				'rules'  => 'required',
+				'errors' => array(
+					'required'   => 'You must provide a %s for your account.',
+					'in_list' => 'Your %s is not a valid option.',
 				),
 			),
 		)

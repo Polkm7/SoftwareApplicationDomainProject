@@ -8,7 +8,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span class="float-right mx-5">
 						<a class="btn btn-primary mx-2" href="<?=site_url('logs/index/users');?>">User Logs</a>
 						<a class="btn btn-success mx-2" href="<?=site_url('logs/index/admin');?>">Admin Logs</a>
-						<a class="btn btn-warning mx-2" href="<?=site_url('logs/index/accounts');?>">Account Logs</a>
+						<!-- <a class="btn btn-info mx-2" href="<?=site_url('logs/index/accounts');?>">Account Logs</a> -->
+						<a class="btn btn-warning mx-2" href="<?=site_url('logs/index/entries');?>">Entry Logs</a>
 					</span>
 				</h1>
 				<div class="input-group" style="padding-bottom: 10px">
@@ -25,14 +26,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php
 
 	if ($logType == 'admin'){
-		echo "<th>Affected User ID</th>";
+		echo '<th>Affected User ID</th>';
+		echo '<th colspan="2">Log Information</th>';
 	}
 	elseif ($logType == 'accounts') {
-		echo "<th>Account ID</th>";
+		echo '<th>Account ID</th>';
+		echo '<th colspan="2">Log Information</th>';
+	}
+	elseif ($logType == 'entries') {
+		echo '<th>Affected Entry ID</th>';
+		echo '<th>Log Information</th>';
+	}
+	else{
+		echo '<th colspan="2">Log Information</th>';
 	}
 
 ?>
-							<th colspan="2">Log Information</th>
 							<th>Log Date</th>
 						</tr>
 					</thead>
@@ -48,6 +57,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$logAfterInfo  = json_decode($logAfterInfo, true)[0];
 
 		switch ($logType) {
+			case 'entries':
+				echo '
+					<tr class="text-center">
+						<td>#'.$log["logID"].'</td>
+						<td>#'.$log["userID"].'</td>
+						<td>#'.$log["logBefore"].'</td>
+						<td>
+							'.$log["logAfter"].'
+				';
+				break;
+
 			# Users Display Table
 			case 'users':
 				echo '
@@ -81,6 +101,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				else {
 					echo '<strong>User Email:</strong> '.$logBeforeInfo['userEmail'].'<br />';
+				}
+				# User Password Change Check
+				if (array_key_exists('userPassword', $logAfterInfo)){
+					echo '<span class="text-danger"><strong>User Password was changed.</strong></span><br />';
 				}
 				break;
 
@@ -201,7 +225,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td>#'.$logBeforeInfo["accountID"].'</td>
 						<td class="text-left">
 							<strong>Account Name:</strong> '.$logBeforeInfo['accountName'].'<br />
-							<strong>Account Description:</strong> '.$logBeforeInfo['accountDescription'].'<br />
 							<strong>Account Category:</strong> '.$logBeforeInfo['accountCategory'].'<br />
 							<strong>Account Sub-Category:</strong> '.$logBeforeInfo['accountCategorySub'].'<br />
 							<strong>Account Side:</strong> ';
@@ -230,13 +253,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				else {
 					echo '<strong>Account Name:</strong> '.$logBeforeInfo['accountName'].'<br />';
 				}
-				# Account Description Change Check
-				if (array_key_exists('accountDescription', $logAfterInfo) && $logBeforeInfo['accountDescription'] != $logAfterInfo['accountDescription']){
-					echo '<span class="text-danger"><strong>Account Description:</strong> '.$logAfterInfo['accountDescription'].'</span><br />';
-				}
-				else {
-					echo '<strong>Account Description:</strong> '.$logBeforeInfo['accountDescription'].'<br />';
-				}
 				# Account Category Change Check
 				if (array_key_exists('accountCategory', $logAfterInfo) && $logBeforeInfo['accountCategory'] != $logAfterInfo['accountCategory']){
 					echo '<span class="text-danger"><strong>Account Category:</strong> '.$logAfterInfo['accountCategory'].'</span><br />';
@@ -253,45 +269,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 				# Account Side Change Check
 				if (array_key_exists('accountSide', $logAfterInfo) && $logBeforeInfo['accountSide'] != $logAfterInfo['accountSide']){
-					echo '<span class="text-danger"><strong>Account Side:</strong> ';
-					if ($logAfterInfo['accountSide'] == 'L'){
-						echo 'Left (Debit)';
-					}
-					else {
-						echo 'Right (Credit)';
-					}
-					echo '</span><br />';
+					echo '<span class="text-danger"><strong>Account Side:</strong> '.$logAfterInfo['accountSide'].'</span><br />';
 				}
 				else {
-					echo '<strong>Account Side:</strong> ';
-					if ($logBeforeInfo['accountSide'] = 'L'){
-						echo 'Left (Debit)';
-					}
-					else {
-						echo 'Right (Credit)';
-					}
-					echo '<br />';
+					echo '<strong>Account Side:</strong> '.$logAfterInfo['accountSide'].'<br />';
 				}
 				# Account Statement Change Check
 				if (array_key_exists('accountStatement', $logAfterInfo) && $logBeforeInfo['accountStatement'] != $logAfterInfo['accountStatement']){
-					echo '<span class="text-danger"><strong>Account Side:</strong> ';
-					if ($logAfterInfo['accountStatement'] == 'BS'){
-						echo 'Balance Statement';
-					}
-					else {
-						echo 'Income Statement';
-					}
-					echo '</span><br />';
+					echo '<span class="text-danger"><strong>Account Statement:</strong> '.$logAfterInfo['accountStatement'].'</span><br />';
 				}
 				else {
-					echo '<strong>Account Side:</strong> ';
-					if ($logBeforeInfo['accountStatement'] = 'BS'){
-						echo 'Balance Statement';
-					}
-					else {
-						echo 'Income Statement';
-					}
-					echo '<br />';
+					echo '<strong>Account Statement:</strong> '.$logAfterInfo['accountStatement'].'<br />';
 				}
 				break;
 		}
